@@ -4,7 +4,7 @@
 # Allows you to run Kaspa executables with custom saved arguments
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-CONFIG_FILE="$SCRIPT_DIR/config-kaspa.conf"
+CONFIG_FILE="$SCRIPT_DIR/kaspa-config.conf"
 
 # Create config file if it doesn't exist
 if [ ! -f "$CONFIG_FILE" ]; then
@@ -162,9 +162,13 @@ manage_args_for_exe() {
             echo "Current arguments:"
             echo
             local i=1
-            while IFS= read -r arg; do
-                [ -n "$arg" ] && echo "  $i. $arg" && ((i++))
-            done < <(echo "$current_args" | tr '=' '\n' | grep -v '^$' | awk 'BEGIN{RS="=="} NR>0{print}' || echo "$current_args" | sed 's/==/\n/g')
+            # Split by == delimiter and display each argument
+            echo "$current_args" | sed 's/==/\n/g' | while IFS= read -r arg; do
+                if [ -n "$arg" ]; then
+                    echo "  $i. $arg"
+                    ((i++))
+                fi
+            done
         fi
         echo
         echo "================================"
@@ -233,7 +237,7 @@ add_argument() {
     echo "  2. --ram-scale=0.5"
     echo "  3. --disable-upnp"
     echo "  4. --utxoindex"
-    echo "  5. --appdir /path/to/SSD/storage"
+    echo "  5. --appdir (custom path)"
     echo
     echo "(Or type any argument directly)"
     echo
@@ -251,11 +255,40 @@ add_argument() {
         2) new_arg="--ram-scale=0.5" ;;
         3) new_arg="--disable-upnp" ;;
         4) new_arg="--utxoindex" ;;
-        5) new_arg="--appdir /path/to/SSD/storage" ;;
+        5) 
+            echo
+            echo "Enter custom path for --appdir:"
+            echo
+            echo "Examples:"
+            if [[ "$OSTYPE" == "darwin"* ]]; then
+                echo "  /Volumes/MySSD/kaspa-data"
+                echo "  ~/Library/Application Support/kaspa"
+            else
+                echo "  /mnt/ssd/kaspa-data"
+                echo "  ~/kaspa-data"
+            fi
+            echo
+            echo "Default location if not specified:"
+            if [[ "$OSTYPE" == "darwin"* ]]; then
+                echo "  ~/.kaspa"
+            else
+                echo "  ~/.kaspa"
+            fi
+            echo
+            read -p "Path: " custom_path
+            
+            if [ -z "$custom_path" ]; then
+                echo "No path entered. Cancelled."
+                sleep 1
+                return
+            fi
+            
+            new_arg="--appdir=$custom_path"
+            ;;
     esac
     
     # Check duplicate by splitting on ==
-    if echo "$current_args" | tr '==' '\n' | grep -qxF "$new_arg"; then
+    if echo "$current_args" | sed 's/==/\n/g' | grep -qxF -- "$new_arg"; then
         echo
         echo "Argument already exists: $new_arg"
         sleep 2
