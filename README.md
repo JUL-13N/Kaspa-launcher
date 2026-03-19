@@ -90,7 +90,7 @@ Runs the executable with `-h` to show all supported arguments.
 Arguments are stored using `==` as a delimiter to safely support arguments that contain spaces (like `--appdir` with a path):
 
 ```
-kaspad.exe=--retention-period-days=2==--ram-scale=0.5==--appdir C:\path\to\data
+kaspad.exe=--retention-period-days=2==--ram-scale=0.5==--appdir C:\path\to\SSD\storage
 kaspa-wallet.exe=
 rothschild.exe=
 stratum-bridge.exe=
