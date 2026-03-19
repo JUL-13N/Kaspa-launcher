@@ -1,7 +1,7 @@
 @echo off
 setlocal enabledelayedexpansion
 
-set "config=%~dp0config-kaspa.txt"
+set "config=%~dp0kaspa-config.txt"
 
 :start
 cls
