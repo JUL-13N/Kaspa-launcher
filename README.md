@@ -66,7 +66,7 @@ Presets:
 2. --ram-scale=0.5
 3. --disable-upnp
 4. --utxoindex
-5. --appdir C:\path\to\SSD\drive
+5. --appdir C:\path\to\SSD\storage
 ```
 
 For arguments with a path (like `--appdir`), type the full argument including your path:
