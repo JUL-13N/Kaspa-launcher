@@ -159,7 +159,7 @@ echo   1. --retention-period-days=2
 echo   2. --ram-scale=0.5
 echo   3. --disable-upnp
 echo   4. --utxoindex
-echo   5. --appdir C:\path\to\SSD\storage
+echo   5. --appdir (custom path)
 echo.
 echo (Or type any argument directly)
 echo.
@@ -175,7 +175,28 @@ if "!new_arg!"=="1" set "new_arg=--retention-period-days=2"
 if "!new_arg!"=="2" set "new_arg=--ram-scale=0.5"
 if "!new_arg!"=="3" set "new_arg=--disable-upnp"
 if "!new_arg!"=="4" set "new_arg=--utxoindex"
-if "!new_arg!"=="5" set "new_arg=--appdir C:\path\to\SSD\storage"
+if "!new_arg!"=="5" (
+    echo.
+    echo Enter custom path for --appdir:
+    echo.
+    echo Examples:
+    echo   D:\kaspa-data
+    echo   C:\SSD\kaspa-data
+    echo   E:\MyExternalDrive\kaspa
+    echo.
+    echo Default location if not specified:
+    echo   C:\Users\%USERNAME%\AppData\Local\kaspa
+    echo.
+    set /p "custom_path=Path: "
+    
+    if "!custom_path!"=="" (
+        echo No path entered. Cancelled.
+        pause
+        goto do_manage
+    )
+    
+    set "new_arg=--appdir=!custom_path!"
+)
 
 :: Check duplicate split by ==
 set "KASP_CHECK=!current_args!"
