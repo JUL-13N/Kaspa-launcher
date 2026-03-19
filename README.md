@@ -8,10 +8,10 @@ A menu-driven launcher for Kaspa executables with persistent saved arguments. Av
 
 | File | Platform |
 |---|---|
-| `launch-kaspa-win64.bat` | Windows |
-| `launch-kaspa.command` | Mac / Linux |
-| `config-kaspa.txt` | Windows config (auto-created) |
-| `config-kaspa.conf` | Mac/Linux config (auto-created) |
+| `kaspa-launcher-win64.bat` | Windows |
+| `kaspa-launcher.command` | Mac / Linux |
+| `kaspa-config.txt` | Windows config (auto-created) |
+| `kaspa-config.conf` | Mac/Linux config (auto-created) |
 
 ---
 
@@ -33,7 +33,7 @@ Download the appropriate archive for your platform, extract the executables, and
 
 > **Mac/Linux only:** If the `.command` file won't open, make it executable first:
 > ```bash
-> chmod +x launch-kaspa.command
+> chmod +x kaspa-launcher.command
 > ```
 
 ---
